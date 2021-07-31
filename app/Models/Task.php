@@ -13,7 +13,8 @@ class Task extends Model
         'description',
         'deadline',
         'user_id',
-        'project_id'
+        'project_id',
+        'status'
     ];
 
     public function project(){

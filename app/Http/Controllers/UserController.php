@@ -6,7 +6,6 @@ use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -28,7 +27,7 @@ class UserController extends Controller
     public function index()
     {
         // $user = $this->user->paginate('10');
-        return $this->user->paginate();
+        return User::with('roles')->paginate();
     }
 
     /**

@@ -11,7 +11,8 @@ class Project extends Model
     protected $fillable = [
         'name',
         'deadline',
-        'user_id'
+        'user_id',
+        'status'
     ];
     public function tasks(){               
         return $this->hasMany('App\Models\Task');

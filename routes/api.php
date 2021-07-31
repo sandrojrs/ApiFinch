@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProjectController;
@@ -25,7 +26,7 @@ use App\Http\Controllers\ProjectController;
 Route::post('login', [ApiController::class, 'authenticate']);
 
 Route::group(['middleware' => ['jwt.verify']], function() {
-    Route::group(['middleware' => ['role:owner']], function () {
+    Route::group(['middleware' => ['role:manager']], function () {
         Route::post('register', [ApiController::class, 'register']);
     });
     Route::get('logout', [ApiController::class, 'logout']);
@@ -33,5 +34,6 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::apiResource('users', UserController::class);    
     Route::apiResource('projects', ProjectController::class);
     Route::apiResource('tasks', TaskController::class);
+    Route::apiResource('roles', RoleController::class);
 });
 

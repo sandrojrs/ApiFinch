@@ -18,6 +18,7 @@ class CreateTasksTable extends Migration
             $table->string('title');
             $table->string('description');
             $table->date('deadline');
+            $table->enum('status', ['pending', 'in_progress', 'done']);
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('project_id');
             $table->timestamps();

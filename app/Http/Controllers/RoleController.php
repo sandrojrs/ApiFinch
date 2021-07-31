@@ -67,15 +67,23 @@ class RoleController extends Controller
             'name' => 'required|unique:roles,name',
             'permission' => 'required',
         ]);
+
+        try {
+          $role = Role::create(['name' => $request->input('name')]);
+          $role->syncPermissions($request->input('permission'));
     
-        $role = Role::create(['name' => $request->input('name')]);
-        $role->syncPermissions($request->input('permission'));
+          return response()->json([
+            'success' => true,
+            'message' => 'Role created successfully',
+            'data' => $role
+          ], Response::HTTP_OK);         
+        } catch (\Throwable $th) {
+            return response()->json([
+              'success' => false,
+              'message' =>  $th->getMessage()
+            ]);
+        }
     
-        return response()->json([
-          'success' => true,
-          'message' => 'Role created successfully',
-          'data' => $role
-        ], Response::HTTP_OK);
 
     }
     /**
