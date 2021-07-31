@@ -19,7 +19,8 @@ class ApiController extends Controller
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
             'cpf' => 'required|unique:users',
-            'password' => 'required|string|min:6|max:50'
+            'password' => 'required|string|min:6|max:50',
+            'roles' => 'required'
         ]);
 
         //Send failed response if request is not valid
@@ -28,12 +29,10 @@ class ApiController extends Controller
         }
 
         //Request is valid, create new user
-        $user = User::create([
-        	'name' => $request->name,
-            'email' => $request->email,
-            'cpf' => $request->cpf,
-        	'password' => bcrypt($request->password)
-        ]);
+        $input = $request->all();
+        $input['password'] = bcrypt($input['password']);
+        $user = User::create($input);
+        $user->assignRole($request->input('roles'));
 
         //User created, return success response
         return response()->json([

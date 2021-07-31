@@ -12,6 +12,7 @@ class Task extends Model
         'title',
         'description',
         'deadline',
+        'user_id',
         'project_id'
     ];
 

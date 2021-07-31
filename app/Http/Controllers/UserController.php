@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Validator;
 
@@ -51,7 +55,8 @@ class UserController extends Controller
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
             'cpf' => 'required|unique:users',
-            'password' => 'required|string|min:6|max:50'
+            'password' => 'required|string|min:6|max:50',
+            'roles' =>'required'
         ]);
 
         //Send failed response if request is not valid
@@ -60,13 +65,10 @@ class UserController extends Controller
         }
 
         //Request is valid, create new user
-        $user = User::create([
-        	'name' => $request->name,
-            'email' => $request->email,
-            'cpf' => $request->cpf,
-        	'password' => bcrypt($request->password)
-        ]);
-
+        $input = $request->all();
+        $input['password'] = bcrypt($input['password']);
+        $user = User::create($input);
+        $user->assignRole($request->input('roles'));
         //User created, return success response
         return response()->json([
             'success' => true,
@@ -103,7 +105,15 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        $roles = Role::pluck('name','name')->all();
+        $userRole = $user->roles->pluck('name','name')->all();
+        $data = [$user, $roles, $userRole];
+        return response()->json([
+            'success' => true,            
+            'data' => $data,
+        ], 400);
+    
     }
 
     /**
@@ -115,32 +125,36 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //Validate data
-        $data = $request->only('name','cpf','email', 'password');
-        $validator = Validator::make($data, [
+         //Request is valid, updated user
+         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:users,email,'.$user->id,
             'cpf' => 'required|unique:users',
-            'password' => 'required|string|min:6|max:50'
+            'password' => 'required|string|min:6|max:50',
+            'roles' =>'required'
         ]);
 
         //Send failed response if request is not valid
         if ($validator->fails()) {
             return response()->json(['error' => $validator->messages()], 200);
         }
-
-        //Request is valid, create new user
-        $user = $user->update([
-        	'name' => $request->name,
-            'email' => $request->email,
-            'cpf' => $request->cpf,
-        	'password' => bcrypt($request->password)
-        ]);
+       
+        $input = $request->all();
+        if(!empty($input['password'])){ 
+            $input['password'] = bcrypt($input['password']);
+        }else{
+            $input = Arr::except($input,array('password'));    
+        }
+    
+        $user->update($input);
+        DB::table('model_has_roles')->where('model_id',$user->id)->delete();
+    
+        $user->assignRole($request->input('roles'));
 
         //User created, return success response
         return response()->json([
             'success' => true,
-            'message' => 'User created successfully',
+            'message' => 'User updated successfully',
             'data' => $user
         ], Response::HTTP_OK);
     }
@@ -151,8 +165,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        
+         $user->delete();
+        return response()->json([
+            'success' => true,
+            'message' => 'User deleted successfully'
+        ], Response::HTTP_OK);
     }
 }
