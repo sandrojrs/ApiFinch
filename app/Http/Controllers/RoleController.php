@@ -19,10 +19,10 @@ class RoleController extends Controller
      */
     function __construct()
     {
-        //  $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
-        //  $this->middleware('permission:role-create', ['only' => ['create','store']]);
-        //  $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
-        //  $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+         $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:role-create', ['only' => ['create','store']]);
+         $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
     }
     
     /**
@@ -34,8 +34,7 @@ class RoleController extends Controller
     {
         $roles = Role::orderBy('id','DESC')->paginate();
         return response()->json([
-          'success' => true,
-          'message' => 'Role created successfully',
+          'success' => true,       
           'data' => $roles
         ], Response::HTTP_OK);
     }
@@ -49,8 +48,7 @@ class RoleController extends Controller
     {
         $permission = Permission::get();
         return response()->json([
-          'success' => true,
-          'message' => 'Role create successfully',
+          'success' => true,         
           'data' => $permission
         ], Response::HTTP_OK);
     }
@@ -98,7 +96,7 @@ class RoleController extends Controller
             ->where("role_has_permissions.role_id",$role->id)
             ->get();
 
-        $data = [$role, $rolePermissions];
+        $data = ['role'=> $role, 'permissions' =>$rolePermissions];
 
           return response()->json([
             'success' => true,
@@ -116,13 +114,25 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
+      try {
         $role = Role::find($id);
         $permission = Permission::get();
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
             ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
             ->all();
     
-        return view('roles.edit',compact('role','permission','rolePermissions'));
+        return response()->json([
+          'success' => true,         
+          'data' => ['permission'=>$permission , 'role' => $role, 'rolePermissions' => $rolePermissions]
+        ], Response::HTTP_OK);
+
+      } catch (\Throwable $th) {
+          return response()->json([
+          'success' => true,         
+          'data' => $th->getMessage()
+        ], 202);
+      }
+       
     }
     
     /**
@@ -139,14 +149,36 @@ class RoleController extends Controller
             'permission' => 'required',
         ]);
 
+        try {
+
+         $default_roles = config('defaults.roles');
+        if (in_array($role->name, $default_roles)) {
+            foreach($default_roles as $roleName) {
+                if ($role->name == $roleName && $request->input('name') != $roleName) {
+                    return response()
+                        ->json([
+                            'success' => true,
+                            'message' => 'it is not possible to update a default group',
+                        ]);
+                }
+            }
+        }
         $role->name = $request->input('name');
         $role->save();    
         $role->syncPermissions($request->input('permission'));
 
         return response()->json([
           'success' => true,
+          'data' => $role,
           'message' => 'Role updated successfully'
-      ], Response::HTTP_OK);
+      ], Response::HTTP_OK);        
+        } catch (\Throwable $th) {
+          return response()
+            ->json([
+              'success' => false,
+              'message' => $th->getMessage(),
+          ]);
+        }
     }
     /**
      * Remove the specified resource from storage.
@@ -156,10 +188,28 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        $role->delete();
-        return response()->json([
-          'success' => true,
-          'message' => 'Role deleted successfully'
-      ], Response::HTTP_OK);
+
+      $default_roles = config('defaults.roles');
+      if (in_array($role->name, $default_roles)) {
+          return response()->json([
+              'success' => false,
+              'message' => 'it is not possible to remove a default group',
+          ]);
+      }
+
+      try {
+          $role->delete();
+          return response()->json([
+            'success' => true,
+            'message' => 'Role deleted successfully'
+        ], Response::HTTP_OK);
+      } catch (\Throwable $th) {
+          return response()
+          ->json([
+            'success' => false,
+            'message' => $th->getMessage(),
+        ]);
+      }
+  
     }
 }

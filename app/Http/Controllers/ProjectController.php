@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\Helper;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Validator;
 
@@ -22,7 +24,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return $this->user->project()->paginate();
+        return $this->user->project()->with('tasks')->paginate();
     }
 
     /**
@@ -48,12 +50,21 @@ class ProjectController extends Controller
           $validator = Validator::make($data, [
               'name' => 'required|string',
               'deadline' => 'required|date',           
+              'status' => 'pending',
           ]);
   
           //Send failed response if request is not valid
           if ($validator->fails()) {
               return response()->json(['error' => $validator->messages()], 200);
           }
+
+          $diffDate = Helper::DiffDate($request->deadline);
+        if (!$diffDate){             
+              return response()->json([
+                  'success' => false,
+                  'message' => 'the date cannot be less than the current ',              
+              ]);                     
+        }
   
           //Request is valid, create new user
           $user = Project::create([
@@ -78,7 +89,7 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $project = project::find($id);
+        $project = project::with('tasks')->find($id);
     
         if (!$project) {
             return response()->json([
@@ -110,10 +121,11 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        $data = $request->only('name','deadline');
+        $data = $request->only('name','deadline','status');
         $validator = Validator::make($data, [
             'name' => 'required|string',
-            'deadline' => 'required|date',           
+            'deadline' => 'required|date',        
+            'status' => ['required', Rule::in(['pending', 'in_progress', 'done'])],   
         ]);
 
         //Send failed response if request is not valid
@@ -121,12 +133,29 @@ class ProjectController extends Controller
             return response()->json(['error' => $validator->messages()], 200);
         }
 
+        $diffDate = Helper::DiffDate($request->deadline);
+        if (!$diffDate){             
+              return response()->json([
+                  'success' => false,
+                  'message' => 'the date cannot be less than the current ',              
+              ]);                     
+        }
+
+        $projectTasks = Project::with('tasks')->find($project->id);        
+        foreach ($projectTasks->tasks as  $value) {         
+            if ( $request->status =='done' && $value->status != 'done'){
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Sorry , It is not possible to complete the project as there are still pending tasks',
+                    'data' => $project
+                ]);
+            }
+        }
         try {
-            $project = $project->fill($request->all());
+            $project = $project->update($request->all());
             return response()->json([
                 'success' => true,
-                'message' => 'Project updated successfully',
-                'data' => $project
+                'message' => 'Project updated successfully',               
             ], Response::HTTP_OK);
         } catch (\Throwable $th) {
             return response()->json([

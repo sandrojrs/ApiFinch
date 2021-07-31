@@ -49,11 +49,11 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //Validate data
-        $data = $request->only('name','cpf','email', 'password');
+        $data = $request->only('name','cpf','email', 'password', 'roles');
         $validator = Validator::make($data, [
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
-            'cpf' => 'required|unique:users',
+            'cpf' => 'required|cpf',
             'password' => 'required|string|min:6|max:50',
             'roles' =>'required'
         ]);
@@ -63,17 +63,26 @@ class UserController extends Controller
             return response()->json(['error' => $validator->messages()], 200);
         }
 
-        //Request is valid, create new user
-        $input = $request->all();
-        $input['password'] = bcrypt($input['password']);
-        $user = User::create($input);
-        $user->assignRole($request->input('roles'));
-        //User created, return success response
-        return response()->json([
-            'success' => true,
-            'message' => 'User created successfully',
-            'data' => $user
-        ], Response::HTTP_OK);
+        try {
+            //Request is valid, create new user
+            $input = $request->all();
+            $input['password'] = bcrypt($input['password']);
+            $user = User::create($input);
+            $user->assignRole($request->input('roles'));
+            //User created, return success response
+            return response()->json([
+                'success' => true,
+                'message' => 'User created successfully',
+                'data' => $user
+            ], Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => $th->getMessage(),               
+            ]);
+        }
+
+      
     }
 
     /**
@@ -128,7 +137,7 @@ class UserController extends Controller
          $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email,'.$user->id,
-            'cpf' => 'required|unique:users',
+            'cpf' => 'required|cpf',
             'password' => 'required|string|min:6|max:50',
             'roles' =>'required'
         ]);

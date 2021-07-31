@@ -18,7 +18,7 @@ class ApiController extends Controller
         $validator = Validator::make($data, [
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
-            'cpf' => 'required|unique:users',
+            'cpf' => 'required|cpf',
             'password' => 'required|string|min:6|max:50',
             'roles' => 'required'
         ]);

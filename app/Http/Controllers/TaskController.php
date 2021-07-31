@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Validator;
+use App\Helper\Helper;
 
 class TaskController extends Controller
 {
@@ -42,7 +45,9 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-
+         if($this->user->givePermissionTo('task-create')){           
+            return response()->json(['message' => 'User not permissions'], 200);
+         };
          //Validate data
           $data = $request->only('title', 'description', 'deadline', 'project_id');
           $validator = Validator::make($data, [
@@ -56,13 +61,22 @@ class TaskController extends Controller
           if ($validator->fails()) {
               return response()->json(['error' => $validator->messages()], 200);
           }
+
+          $diffDate = Helper::DiffDate($request->deadline);
+          if (Project::find($request->project_id)->start_date_difference_task($request->deadline) || !$diffDate){             
+                return response()->json([
+                    'success' => false,
+                    'message' => 'the task cannot have a date longer than the project',              
+                ]);                     
+          }
   
           //Request is valid, create new user
           $user = Task::create([
               'title' => $request->title,
-              'description' =>  $request->description,
+              'description' =>  $request->description,            
               'deadline' => $request->deadline,
               'user_id' => $this->user->id,
+              'status' => 'pending',
               'project_id' => $request->project_id,
           ]);
   
@@ -89,8 +103,7 @@ class TaskController extends Controller
                 'success' => false,
                 'message' => 'Sorry, task not found.'
             ], 400);
-        }
-    
+        }    
         return $task;
     }
 
@@ -116,12 +129,13 @@ class TaskController extends Controller
     public function update(Request $request, Task $task)
     {
         //Validate data
-        $data = $request->only('title', 'description', 'deadline','project_id');
+        $data = $request->only('title', 'description', 'deadline','project_id','status');
         $validator = Validator::make($data, [
           'title' => 'required',
           'description' =>  'required',
           'deadline' =>  'required',         
           'project_id' =>  'required',
+          'status' => ['required', Rule::in(['pending', 'in_progress', 'done'])],
         ]);
 
         //Send failed response if request is not valid
@@ -129,20 +143,37 @@ class TaskController extends Controller
             return response()->json(['error' => $validator->messages()], 200);
         }
 
+        $diffDate = Helper::DiffDate($request->deadline);
+        if (Project::find($request->project_id)->start_date_difference_task($request->deadline) || !$diffDate){             
+              return response()->json([
+                  'success' => false,
+                  'message' => 'the task cannot have a date longer than the project',              
+              ]);                     
+        }
+        if($this->user->hasRole(Helper::executorName())){
+            $task = $task->update([              
+                'status' => $request->status
+            ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Task update successfully'           
+            ], Response::HTTP_OK);
+        };
+
         //Request is valid, create new user
-        $task = $task->fill([
-            'title' => $request->name,
+        $task = $task->update([
+            'title' => $request->title,
             'description' =>  $request->description,
             'deadline' => $request->deadline,
             'user_id' => $this->user->id,
             'project_id' => $request->project_id,
+            'status' => $request->status
         ]);
 
         //User created, return success response
         return response()->json([
             'success' => true,
-            'message' => 'Task update successfully',
-            'data' => $task
+            'message' => 'Task update successfully'           
         ], Response::HTTP_OK);
     }
 

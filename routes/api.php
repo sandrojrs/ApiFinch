@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\RoleController;
@@ -28,12 +27,13 @@ Route::post('login', [ApiController::class, 'authenticate']);
 Route::group(['middleware' => ['jwt.verify']], function() {
     Route::group(['middleware' => ['role:manager']], function () {
         Route::post('register', [ApiController::class, 'register']);
+        Route::apiResource('users', UserController::class);    
+        Route::apiResource('projects', ProjectController::class);
+        Route::apiResource('roles', RoleController::class);
     });
+    Route::group(['middleware' => ['role:executor|manager']], function () {
+        Route::apiResource('tasks', TaskController::class);
+    });   
     Route::get('logout', [ApiController::class, 'logout']);
-    Route::get('get_user', [ApiController::class, 'get_user']);
-    Route::apiResource('users', UserController::class);    
-    Route::apiResource('projects', ProjectController::class);
-    Route::apiResource('tasks', TaskController::class);
-    Route::apiResource('roles', RoleController::class);
 });
 
