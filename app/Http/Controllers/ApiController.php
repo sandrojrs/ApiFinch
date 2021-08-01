@@ -25,7 +25,7 @@ class ApiController extends Controller
 
         //Send failed response if request is not valid
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()], 200);
+            return response()->json(['error' => $validator->messages()], 422);
         }
 
         //Request is valid, create new user
@@ -75,10 +75,7 @@ class ApiController extends Controller
         }
  	
  		//Token created, return with success response and jwt token
-        return response()->json([
-            'success' => true,
-            'token' => $token,
-        ]);
+         return response()->json(compact('token'));
     }
  
     public function logout(Request $request)
@@ -118,5 +115,22 @@ class ApiController extends Controller
         $user = JWTAuth::authenticate($request->token);
  
         return response()->json(['user' => $user]);
+    }
+
+    public function getToken()
+    {
+        $token = JWTAuth::getToken();
+
+        if (!$token) {
+            return $this->response->errorMethodNotAllowed('Token not provided');
+        }
+
+        try {
+            $refreshedToken = JWTAuth::refresh($token);
+        } catch (JWTException $e) {
+            return $this->response->errorInternal('Not able to refresh Token');
+        }
+
+        return $this->response->withArray(['token' => $refreshedToken]);
     }
 }

@@ -45,7 +45,7 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-         if($this->user->givePermissionTo('task-create')){           
+         if(!$this->user->hasRole(Helper::managerName())){           
             return response()->json(['message' => 'User not permissions'], 200);
          };
          //Validate data
