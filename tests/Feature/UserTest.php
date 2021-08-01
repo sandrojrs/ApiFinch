@@ -9,7 +9,6 @@ class UserTest extends TestCase
 {
     public function testUserList(){
       $token = $this->getTokenForUser($this->managerUser());
-    
       $baseUrl = Config::get('app.url') . '/api/users?token='.$token;
       $response = $this->json('get', $baseUrl, []);
       $response

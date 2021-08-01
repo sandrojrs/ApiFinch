@@ -1,37 +1,46 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# API RESTFULL (LARAVEL, MYSQL)
 
 <p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+ <a href="#Desafio">Desafio</a> •
+ <a href="#bibliotecas">bibliotecas</a> • 
+<a href="#bibliotecas">Instalação</a> • 
+
 </p>
 
-## About Laravel
+## Desafio
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Desenvolver uma API Restfull de um sistema para gerenciar projetos. Desenvolvimento Usuário
+Possibilidade de cadastrar, editar, excluir e buscar usuários. Teremos 2 tipos de usuários, os
+gerentes e os executores com os seguintes atributos para ambos:
+<p>● Nome (obrigatório)</p>
+<p>● CPF
+<p>● E-mail (obrigatório)
+<p>O CPF e e-mail devem ser válidos e únicos no sistema.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Projeto
+Possibilidade do gerente cadastrar, editar, excluir e buscar projetos. Os executores poderão
+apenas buscar por projeto. O projeto devem ter os seguintes atributos;
+<p>● Nome do projeto (obrigatório)
+<p>● Prazo final (obrigatório)
+<p>Além disso, o gerente deve conseguir indicar que o projeto foi concluído somente quando todas
+as tarefas forem concluídas.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Tarefas
 
-## Learning Laravel
+Possibilidade do gerente cadastrar, editar, excluir e buscar tarefas que serão utilizadas no
+projeto. Os executores poderão apenas buscar tarefas. A tarefa deve ter os seguintes atributos;
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+<p>● Título (obrigatório)
+<p>● Descrição
+<p>● Prazo (obrigatório)
+<p>● Executor da tarefa (obrigatório)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
+Além disso, o executor deve conseguir indicar que a tarefa foi concluída.
+É importante validar e não permitir que o campo de prazo seja maior que o prazo final do projeto.
+No cadastro da tarefa o prazo final não pode ser menor que a data corrente
+<!--te-->
+=================
+### bibliotecas
 
 - **[Vehikl](https://vehikl.com/)**
 - **[Tighten Co.](https://tighten.co)**
@@ -45,18 +54,151 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 - **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
 - **[OP.GG](https://op.gg)**
 
-## Contributing
+# Começando
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Instalação
 
-## Code of Conduct
+Por favor, verifique o guia oficial de instalação do laravel para os requisitos do servidor antes de começar. [Documentação oficial] (https://laravel.com/docs/5.4/installation#installation)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+A instalação alternativa é possível sem dependências locais contando com [Docker] (# docker).
 
-## Security Vulnerabilities
+Clone o repositório
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    git clone git@github.com: gothinkster / laravel-realworld-example-app.git
 
-## License
+Mudar para a pasta repo
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    cd laravel-realworld-example-app
+
+Instale todas as dependências usando composer
+
+    instalação do compositor
+
+Copie o arquivo env de exemplo e faça as alterações de configuração necessárias no arquivo .env
+
+    cp .env.example .env
+
+Gerar uma nova chave de aplicativo
+
+    chave artesanal php: gerar
+
+Gere uma nova chave secreta de autenticação JWT
+
+    php artisan jwt: generate
+
+Execute as migrações do banco de dados (** Defina a conexão do banco de dados em .env antes de migrar **)
+
+    php artisan migrar
+
+Inicie o servidor de desenvolvimento local
+
+    php artesão servir
+
+Agora você pode acessar o servidor em http: // localhost: 8000
+
+** TL; lista de comandos DR **
+
+    git clone git@github.com: gothinkster / laravel-realworld-example-app.git
+    cd laravel-realworld-example-app
+    instalação do compositor
+    cp .env.example .env
+    chave artesanal php: gerar
+    php artisan jwt: generate
+    
+** Certifique-se de definir as informações de conexão do banco de dados corretas antes de executar as migrações ** [variáveis ​​de ambiente] (# variáveis ​​de ambiente)
+
+    php artisan migrar
+    php artesão servir
+
+## Seeding do banco de dados
+
+** Preencher o banco de dados com os usuários
+
+Execute o semeador de banco de dados e pronto
+
+    php artisan db:seed
+
+*** Nota ***: É recomendável ter um banco de dados limpo antes da propagação. Você pode atualizar suas migrações a qualquer momento para limpar o banco de dados executando o seguinte comando
+
+    php artisan migrate:refresh
+    
+## Docker
+
+Para instalar com [Docker] (https://www.docker.com), execute os seguintes comandos:
+
+`` `
+git clone https://github.com/sandrojrs/ApiFinch.git
+cd lApiFinch
+cp .env.example.docker .env
+docker run -v $(pwd):/app composer install
+cd ./docker
+docker-compose up -d
+docker-compose exec php php artisan key:generate
+docker-compose exec php php artisan jwt:generate
+docker-compose exec php php artisan migrate
+docker-compose exec php php artisan db:seed
+docker-compose exec php php artisan serve --host=0.0.0.0
+`` `
+
+A api pode ser acessada em [http: // localhost: 8000 / api] (http: // localhost: 8000 / api).
+
+## Especificação de API
+
+Este aplicativo segue as especificações da API definidas pela equipe [Thinkster] (https://github.com/gothinkster). Isso ajuda a misturar e combinar qualquer back-end com qualquer outro front-end sem conflitos.
+
+
+# Visão geral do código
+
+## Dependências
+
+- [jwt-auth](https://github.com/tymondesigns/jwt-auth)- Para autenticação usando JSON Web Tokens
+
+- [laravel-cors](https://github.com/barryvdh/laravel-cors) - Para lidar com Compartilhamento de recursos de origem cruzada (CORS)
+
+- [knuckleswtf/scribe](https://github.com/knuckleswtf/scribe)- Responsavel por criar a documentação da API
+
+- [spatie/laravel-permission](https://github.com/spatie/laravel-permission)- Responsavel por criar os grupos e permissões dos Usúarios
+
+
+## Pastas
+
+- `app` - Contém todos os modelos do Eloquent
+- `app/Http/Controllers` - Contém todos os controladores da API
+- `app/services` - Contém todos os sericos resposanveis pela regras de negócio
+- `app/repository` - Contém todos as interfaces do repositorios
+- `app/repository/Eloquent` - Contém todos os repositorios do ORM
+- `app/Http/Middleware` - Contém o middleware JWT auth
+- `config` - Contém todos os arquivos de configuração do aplicativo
+- `database/factories` - Contém a fábrica de modelos para todos os modelos
+- `database/migrations` - Contém todas as migrações de banco de dados
+- `database/seeds` - Contém o semeador de banco de dados
+- `routes` - Contém todas as rotas api definidas no arquivo api.php
+- `tests` - contém todos os testes de aplicação
+- `tests/Feature/Api` - Contém todos os testes de API
+
+## Variáveis ​​ambientais
+
+- `.env` - Variáveis ​​de ambiente podem ser definidas neste arquivo
+
+*** Nota ***: Você pode definir rapidamente as informações do banco de dados e outras variáveis ​​neste arquivo e ter o aplicativo funcionando totalmente.
+
+----------
+
+# API de teste
+
+Execute o servidor de desenvolvimento laravel
+
+     php artisan serve
+
+A API agora pode ser acessada em
+
+     http://localhost:8000/api
+
+Solicitar cabeçalhos
+
+| ** Obrigatório ** | ** Chave ** | ** Valor ** |
+| ---------- | ------------------ |
+
+
+
+

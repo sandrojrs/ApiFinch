@@ -16,10 +16,7 @@ class ProjectTest extends TestCase
       $baseUrl = Config::get('app.url') . '/api/projects?token='.$token;
       $response = $this->json('get', $baseUrl, []);
       $response
-      ->assertStatus(200)
-      ->assertJson([
-          'data' => [],
-      ]);
+      ->assertStatus(200);     
   }
   public function testProjectCreate($headers = []){
       $token = $this->getTokenForUser($this->managerUser());

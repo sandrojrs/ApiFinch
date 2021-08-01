@@ -23,24 +23,14 @@ class AuthenticationTest  extends TestCase
        
     } 
 
-    // public function testResgister(){
-    //     $token = $this->getTokenForUser($this->managerUser());
-    //     $data = [
-    //         'email' => 'test@gmail.com',
-    //         'name' => 'Test',
-    //         'cpf' => '18243352023',
-    //         'password' => '12345678',
-    //         'role' => 2
-    //     ];
-    //     // Send a post request
-    //     $response = $this->json('POST', 'api/register' , $data, ['Authorization' => "Bearer $token", 
-    //     'Accept' => 'application/json']);
-    //     // Determine whether the transmission was successful
-    //     $response->assertStatus(200);
-    //     $this->assertArrayHasKey('token',$response->json()); 
-    //     // Receive our token
-    //     // $this->assertArrayHasKey('token',$response->json());
-    //     // Delete data
-    //     // User::where('email','test@gmail.com')->delete();
-    // }
+    public function testlogout()
+    {
+        $token = $this->getTokenForUser($this->managerUser());
+        
+        $baseUrl = Config::get('app.url') . '/api/logout?&token='.$token;
+        $response = $this->json('get', $baseUrl, []);
+        $response
+        ->assertStatus(200);  
+       
+    } 
 }
