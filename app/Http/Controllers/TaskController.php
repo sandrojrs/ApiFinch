@@ -3,46 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Helper\Helper;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Services\TaskServices;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Resources\TaskResource;
 use Illuminate\Support\Facades\Validator;
-use App\Helper\Helper;
 
 class TaskController extends Controller
 {
-    public function __construct()
+    private $taskServices;
+    protected $user;
+
+    public function __construct(TaskServices $taskServices)
     {
         $this->user = JWTAuth::parseToken()->authenticate();
+        $this->taskServices = $taskServices;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        return Task::paginate();
+        $task = $this->taskServices->All();
+        return TaskResource::collection($task);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
          if(!$this->user->hasRole(Helper::managerName())){           
@@ -62,71 +50,33 @@ class TaskController extends Controller
               return response()->json(['error' => $validator->messages()], 200);
           }
 
-          $diffDate = Helper::DiffDate($request->deadline);
-          if (Project::find($request->project_id)->start_date_difference_task($request->deadline) || !$diffDate){             
-                return response()->json([
-                    'success' => false,
-                    'message' => 'the task cannot have a date longer than the project',              
-                ]);                     
-          }
-  
-          //Request is valid, create new user
-          $user = Task::create([
-              'title' => $request->title,
-              'description' =>  $request->description,            
-              'deadline' => $request->deadline,
-              'user_id' => $this->user->id,
-              'status' => 'pending',
-              'project_id' => $request->project_id,
-          ]);
-  
-          //User created, return success response
-          return response()->json([
-              'success' => true,
-              'message' => 'Task created successfully',
-              'data' => $user
-          ], Response::HTTP_OK);
+          try {
+             DB::beginTransaction();
+                $input = $request->all();
+                $input['status'] = 'pending';
+                $input['user_id'] = $this->user->id;
+                //Request is valid, create new user
+                $task = $this->taskServices->Create($input);        
+                //User created, return success response
+             DB::commit();
+             return new TaskResource($task);
+               
+          } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json([                
+                'success' => false,
+                'message' => $th->getMessage(),               
+            ], 400 );
+          }         
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        $task = Task::find($id);
-    
-        if (!$task) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Sorry, task not found.'
-            ], 400);
-        }    
-        return $task;
+        $task = $this->taskServices->findByid($id);
+        return new TaskResource($task);
     }
-
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Task $task)
+  
+    public function update(Request $request, $id)
     {
         //Validate data
         $data = $request->only('title', 'description', 'deadline','project_id','status');
@@ -143,59 +93,31 @@ class TaskController extends Controller
             return response()->json(['error' => $validator->messages()], 200);
         }
 
-        $diffDate = Helper::DiffDate($request->deadline);
-        if (Project::find($request->project_id)->start_date_difference_task($request->deadline) || !$diffDate){             
-              return response()->json([
-                  'success' => false,
-                  'message' => 'the task cannot have a date longer than the project',              
-              ]);                     
-        }
-        if($this->user->hasRole(Helper::executorName())){
-            $task = $task->update([              
-                'status' => $request->status
-            ]);
-            return response()->json([
-                'success' => true,
-                'message' => 'Task update successfully'           
-            ], Response::HTTP_OK);
-        };
-
-        //Request is valid, create new user
-        $task = $task->update([
-            'title' => $request->title,
-            'description' =>  $request->description,
-            'deadline' => $request->deadline,
-            'user_id' => $this->user->id,
-            'project_id' => $request->project_id,
-            'status' => $request->status
-        ]);
-
-        //User created, return success response
-        return response()->json([
-            'success' => true,
-            'message' => 'Task update successfully'           
-        ], Response::HTTP_OK);
+        try {
+            DB::beginTransaction();
+               $task = $this->taskServices->update($id, $request->all());        
+               //User created, return success response
+            DB::commit();
+            return $task;
+              
+         } catch (\Throwable $th) {
+           DB::rollBack();
+           return response()->json([                
+               'success' => false,
+               'message' => $th->getMessage(),               
+           ], 400 );
+         }              
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Task $task)
+    public function destroy($id)
     {
         try {
-            $task->delete();
-            return response()->json([
-                'success' => true,
-                'message' => 'Task deleted successfully'
-            ], Response::HTTP_OK);
+           return $this->taskServices->destroy($id); 
         } catch (\Throwable $th) {
             return response()->json([
-                'success' => true,
+                'success' => false,
                 'message' => $th->getMessage()
-            ], Response::HTTP_OK);
+            ], 400);
         } 
     }
 }

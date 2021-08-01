@@ -5,47 +5,34 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Services\UserServices;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Role;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
     protected $user;
+    private $userServices;
 
-    public function __construct()
+    public function __construct(UserServices $userServices)
     {
         $this->user = JWTAuth::parseToken()->authenticate();
-    }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        // $user = $this->user->paginate('10');
-        return User::with('roles')->paginate();
+        $this->userServices = $userServices;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function index()
+    {
+        $user = $this->userServices->All();
+        return UserResource::collection($user);
+    }
+ 
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //Validate data
@@ -64,79 +51,36 @@ class UserController extends Controller
         }
 
         try {
+            DB::beginTransaction();
             //Request is valid, create new user
             $input = $request->all();
             $input['password'] = bcrypt($input['password']);
-            $user = User::create($input);
+            $user = $this->userServices->Create($input);
             $user->assignRole($request->input('roles'));
-            //User created, return success response
-            return response()->json([
-                'success' => true,
-                'message' => 'User created successfully',
-                'data' => $user
-            ], Response::HTTP_OK);
+            DB::commit();
+            return new UserResource($user);
+           
         } catch (\Throwable $th) {
-            return response()->json([
+            DB::rollBack();
+            return response()->json([                
                 'success' => false,
                 'message' => $th->getMessage(),               
-            ]);
+            ], 400 );          
         }
-
-      
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        $user = $this->user->find($id);
-    
-        if (!$user) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Sorry, product not found.'
-            ], 400);
-        }
-    
-        return $user;
+        $user = $this->userServices->findByid($id);
+        return new UserResource($user);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function update(Request $request, $id)
     {
-        $user = User::find($id);
-        $roles = Role::pluck('name','name')->all();
-        $userRole = $user->roles->pluck('name','name')->all();
-        $data = [$user, $roles, $userRole];
-        return response()->json([
-            'success' => true,            
-            'data' => $data,
-        ], 400);
-    
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, User $user)
-    {
-         //Request is valid, updated user
-         $validator = Validator::make($request->all(), [
+        //Request is valid, updated user
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string',
-            'email' => 'required|email|unique:users,email,'.$user->id,
+            'email' => 'required|email|unique:users,email,'.$id,
             'cpf' => 'required|cpf',
             'password' => 'required|string|min:6|max:50',
             'roles' =>'required'
@@ -146,40 +90,47 @@ class UserController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->messages()], 200);
         }
-       
-        $input = $request->all();
-        if(!empty($input['password'])){ 
-            $input['password'] = bcrypt($input['password']);
-        }else{
-            $input = Arr::except($input,array('password'));    
-        }
-    
-        $user->update($input);
-        DB::table('model_has_roles')->where('model_id',$user->id)->delete();
-    
-        $user->assignRole($request->input('roles'));
+        try {
+            DB::beginTransaction();
 
-        //User created, return success response
-        return response()->json([
-            'success' => true,
-            'message' => 'User updated successfully',
-            'data' => $user
-        ], Response::HTTP_OK);
+            $input = $request->all();
+            if(!empty($input['password'])){ 
+                $input['password'] = bcrypt($input['password']);
+            }else{
+                $input = Arr::except($input,array('password'));    
+            }           
+            $user = $this->userServices->update($id, $input);
+            DB::table('model_has_roles')->where('model_id',$id)->delete();
+            $users =User::find($id);
+            $users->assignRole($request->input('roles'));
+
+            DB::commit();    
+
+            return $user;                   
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json([                
+                'success' => false,
+                'message' => $th->getMessage(),               
+            ], 400 );           
+        }       
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
-    {
-        
-         $user->delete();
-        return response()->json([
-            'success' => true,
-            'message' => 'User deleted successfully'
-        ], Response::HTTP_OK);
+  
+    public function destroy($id)
+    {    
+        try {
+            DB::beginTransaction();
+                $user = $this->userServices->destroy($id);
+                DB::commit();
+            return $user;
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json([                
+                'success' => false,
+                'message' => $th->getMessage(),               
+            ], 400 ); 
+        }               
     }
 }

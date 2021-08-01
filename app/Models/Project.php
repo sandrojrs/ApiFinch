@@ -16,7 +16,10 @@ class Project extends Model
         'status'
     ];
     public function tasks(){               
-        return $this->hasMany('App\Models\Task');
+        return $this->hasMany('App\Models\Task','project_id', 'id');
+    }
+    public function users(){               
+        return $this->hasOne('App\Models\User','id', 'user_id');
     }
     public function start_date_difference_task($date){
         $deadline1= Carbon::parse($this->deadline);
