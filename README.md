@@ -2,8 +2,11 @@
 
 <p align="center">
  <a href="#Desafio">Desafio</a> •
+ <a href="#Escolhas">Escolhas</a> • 
  <a href="#bibliotecas">bibliotecas</a> • 
-<a href="#bibliotecas">Instalação</a> • 
+<a href="#bibliotecas">Instalação</a> 
+
+
 
 </p>
 
@@ -40,6 +43,14 @@ Além disso, o executor deve conseguir indicar que a tarefa foi concluída.
 No cadastro da tarefa o prazo final não pode ser menor que a data corrente
 <!--te-->
 =================
+## Escolhas
+
+  Está API seguiu os padrões de boas praticas na utilização de code clean e alguns principios SOLID.
+  <p>Para exemplificar foram criados na estrutura as pastas de repository e services, visando facilitar o desenvolvimento do projeto conforme seu crescimento e para facilitar a manutenção, foram utilizados intefaces permitindo que os services possam herdar as funções basicas do eloquent, podendo ser auterado por outro ORM conforme haja necessidade sem comprometer toda a estrutura do projeto, também foram atribuidos apenas responsabilidades de requisições para os controles que fazem parte da regra de negócio, visando um codigo mais limpo e dentro das boas práticas.
+
+<!--te-->
+=================
+<!--ts-->
 ### bibliotecas
 
 - **[Vehikl](https://vehikl.com/)**
@@ -64,15 +75,15 @@ A instalação alternativa é possível sem dependências locais contando com [D
 
 Clone o repositório
 
-    git clone git@github.com: gothinkster / laravel-realworld-example-app.git
+    git clone https://github.com/sandrojrs/ApiFinch.git
 
 Mudar para a pasta repo
 
-    cd laravel-realworld-example-app
+    cd ApiFinch
 
 Instale todas as dependências usando composer
 
-    instalação do compositor
+    composer install
 
 Copie o arquivo env de exemplo e faça as alterações de configuração necessárias no arquivo .env
 
@@ -80,35 +91,34 @@ Copie o arquivo env de exemplo e faça as alterações de configuração necess�
 
 Gerar uma nova chave de aplicativo
 
-    chave artesanal php: gerar
+  php artisan key:generate
 
 Gere uma nova chave secreta de autenticação JWT
 
-    php artisan jwt: generate
+    php artisan jwt:generate
 
 Execute as migrações do banco de dados (** Defina a conexão do banco de dados em .env antes de migrar **)
 
-    php artisan migrar
+   php artisan migrate
 
 Inicie o servidor de desenvolvimento local
 
-    php artesão servir
+    php artisan serve
 
-Agora você pode acessar o servidor em http: // localhost: 8000
+Agora você pode acessar o servidor em http://localhost: 8000
 
 ** TL; lista de comandos DR **
 
-    git clone git@github.com: gothinkster / laravel-realworld-example-app.git
-    cd laravel-realworld-example-app
-    instalação do compositor
+    git clone https://github.com/sandrojrs/ApiFinch.git
+    cd lApiFinch
+    instalação do composer
     cp .env.example .env
-    chave artesanal php: gerar
-    php artisan jwt: generate
+    php artisan key:generate
+    php artisan jwt:generate 
     
 ** Certifique-se de definir as informações de conexão do banco de dados corretas antes de executar as migrações ** [variáveis ​​de ambiente] (# variáveis ​​de ambiente)
 
-    php artisan migrar
-    php artesão servir
+    php artisan migrate
 
 ## Seeding do banco de dados
 
@@ -117,6 +127,7 @@ Agora você pode acessar o servidor em http: // localhost: 8000
 Execute o semeador de banco de dados e pronto
 
     php artisan db:seed
+    php artisan serve
 
 *** Nota ***: É recomendável ter um banco de dados limpo antes da propagação. Você pode atualizar suas migrações a qualquer momento para limpar o banco de dados executando o seguinte comando
 
@@ -196,9 +207,42 @@ A API agora pode ser acessada em
 
 Solicitar cabeçalhos
 
-| ** Obrigatório ** | ** Chave ** | ** Valor ** |
-| ---------- | ------------------ |
 
+| **obrigatorio** 	| **chave** 	| **Valor**            	|
+|----------	|------------------	|------------------	|
+| SIM      	| Content-Type     	| application/json 	|
+| SIM      	| X-Requested-With 	| XMLHttpRequest   	|
+| SIM 	| Authorization    	| Token {JWT}      	|
+
+----------
+
+# Teste case
+
+```
+Para testar se as rotas da api estão funcionando conforme o esperado rode o comando :
+
+php artisan test
+
+````
+
+
+# Autenticação
+
+*Observação : você deve alterar as variaveis token e url em envinoriment pela nova chave de autenticação dp JWT.
+primeiro login é feito com o
+     <p> * user : manager@hotmail.com
+     <p> * password :12345678 </p>
+*Logo após criar outros usuarios nos seguintes grupos : 
+*<p>Executores(2) e Manager(1)
+ 
+Este aplicativo usa JSON Web Token (JWT) para lidar com a autenticação. O token é passado com cada solicitação usando o cabeçalho `Authorization` com esquema` Token`. O middleware de autenticação JWT lida com a validação e autenticação do token. Verifique as seguintes fontes para saber mais sobre o JWT.
+ 
+- https://jwt.io/introduction/
+- https://self-issued.info/docs/draft-ietf-oauth-json-web-token.html
+
+----------
+
+ 
 
 
 
