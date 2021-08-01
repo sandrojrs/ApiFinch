@@ -11,6 +11,13 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Resources\ProjectResource;
 use Illuminate\Support\Facades\Validator;
 
+
+/**
+ * @group Project
+ *
+ * @authenticated
+ */
+
 class ProjectController extends Controller
 {
     private $projectServices;

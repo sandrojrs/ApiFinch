@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Task;
+
 use App\Helper\Helper;
-use App\Models\Project;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Services\TaskServices;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +12,11 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Resources\TaskResource;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * @group Task
+ *
+ * @authenticated
+ */
 class TaskController extends Controller
 {
     private $taskServices;

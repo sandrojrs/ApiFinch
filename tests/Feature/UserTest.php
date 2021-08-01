@@ -13,10 +13,7 @@ class UserTest extends TestCase
       $baseUrl = Config::get('app.url') . '/api/users?token='.$token;
       $response = $this->json('get', $baseUrl, []);
       $response
-      ->assertStatus(200)
-      ->assertJson([
-          'data' => [],
-      ]);
+      ->assertStatus(200);
   }
   public function testUserCreate($headers = []){
     $faker = \Faker\Factory::create('pt_BR');
@@ -33,10 +30,7 @@ class UserTest extends TestCase
     ];
 
       $this->post('/api/users', $data , $headers)
-      ->assertStatus(200)
-      ->assertJson([
-          'data' => [],
-      ]);
+      ->assertStatus(200);
   }
 
   public function testUserUpdate($headers = []){
@@ -54,10 +48,7 @@ class UserTest extends TestCase
       ];
 
       $this->put('/api/users/2', $data , $headers)
-      ->assertStatus(200)
-      ->assertJson([
-          'success' => true,
-      ]);
+      ->assertStatus(200);
   }
 
   public function testUserShow(){
@@ -66,9 +57,6 @@ class UserTest extends TestCase
       $baseUrl = Config::get('app.url') . '/api/users?id=1&token='.$token;
       $response = $this->json('get', $baseUrl, []);
       $response
-      ->assertStatus(200)
-      ->assertJson([
-          'data' => [],
-      ]);
+      ->assertStatus(200);
   }
 }

@@ -11,6 +11,14 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * @group User
+ *
+ * @authenticated
+ * @apiResourceCollection  Mpociot\ApiDoc\Tests\Fixtures\UserResource
+ * @apiResourceModel  Mpociot\ApiDoc\Tests\Fixtures\User
+ */
+
 class UserController extends Controller
 {
     protected $user;

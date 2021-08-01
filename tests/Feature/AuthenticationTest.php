@@ -23,19 +23,6 @@ class AuthenticationTest  extends TestCase
        
     } 
 
-    public function testTaskList(){
-        $token = $this->getTokenForUser($this->managerUser());
-       
-        $baseUrl = Config::get('app.url') . '/api/tasks?token='.$token;
-        $response = $this->json('get', $baseUrl, []);
-        $response
-        ->assertStatus(200)
-        ->assertJson([
-            'data' => [],
-        ]);
-    }
-
-
     // public function testResgister(){
     //     $token = $this->getTokenForUser($this->managerUser());
     //     $data = [
@@ -55,50 +42,5 @@ class AuthenticationTest  extends TestCase
     //     // $this->assertArrayHasKey('token',$response->json());
     //     // Delete data
     //     // User::where('email','test@gmail.com')->delete();
-    // }
-
-    // public function testPassword()
-    // {
-    //     $userData = [
-    //         "name" => "executor",
-    //         "email" => "executor@hotmail.com",
-    //         "cpf" => '47516784001',
-    //         'role' => 2
-    //     ];
-
-    //     $this->json('POST', 'api/register', $userData, ['Accept' => 'application/json'])
-    //         ->assertStatus(422)
-    //         ->assertJson([
-    //             "message" => "The given data was invalid.",
-    //             "errors" => [
-    //                 "password" => ["The password confirmation does not match."]
-    //             ]
-    //         ]);
-    // }
-
-    // public function testSuccessfulRegistration()
-    // {
-    //     $userData = [
-    //         "name" => "executor",
-    //         "email" => "executor@hotmail.com",
-    //         "cpf" => '47516784001',
-    //         "password" => "12345678",
-    //         'role' => 2        
-    //     ];
-
-    //     $this->json('POST', 'api/register', $userData, ['Accept' => 'application/json'])
-    //         ->assertStatus(201)
-    //         ->assertJsonStructure([
-    //             "user" => [
-    //                 'id',
-    //                 'name',
-    //                 'email',
-    //                 'cpf',
-    //                 'created_at',
-    //                 'updated_at',
-    //             ],
-    //             "access_token",
-    //             "message"
-    //         ]);
     // }
 }

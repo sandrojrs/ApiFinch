@@ -1,0 +1,107 @@
+name: Role
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: api/roles
+    metadata:
+      title: ''
+      description: ''
+      authenticated: true
+    headers:
+      Authorization: 'Bearer $token'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - POST
+    uri: api/roles
+    metadata:
+      title: ''
+      description: ''
+      authenticated: true
+    headers:
+      Authorization: 'Bearer $token'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/roles/{id}'
+    metadata:
+      title: ''
+      description: ''
+      authenticated: true
+    headers:
+      Authorization: 'Bearer $token'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the role.'
+        required: true
+        example: 20
+        type: integer
+    queryParameters: []
+    bodyParameters: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - PUT
+      - PATCH
+    uri: 'api/roles/{id}'
+    metadata:
+      title: ''
+      description: ''
+      authenticated: true
+    headers:
+      Authorization: 'Bearer $token'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the role.'
+        required: true
+        example: 12
+        type: integer
+    queryParameters: []
+    bodyParameters: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - DELETE
+    uri: 'api/roles/{id}'
+    metadata:
+      title: ''
+      description: ''
+      authenticated: true
+    headers:
+      Authorization: 'Bearer $token'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the role.'
+        required: true
+        example: 12
+        type: integer
+    queryParameters: []
+    bodyParameters: []
+    responses: []
+    responseFields: []

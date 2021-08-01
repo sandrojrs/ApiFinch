@@ -33,10 +33,7 @@ class ProjectTest extends TestCase
       ];
 
       $this->post('/api/projects', $data , $headers)
-      ->assertStatus(200)
-      ->assertJson([
-          'success' => true,
-      ]);
+      ->assertStatus(200);
   }
 
   public function testProjectUpdate($headers = []){
@@ -51,10 +48,7 @@ class ProjectTest extends TestCase
       ];
 
       $this->put('/api/projects/1', $data , $headers)
-      ->assertStatus(200)
-      ->assertJson([
-          'success' => true,
-      ]);
+      ->assertStatus(200);
   }
 
   public function testProjectShow(){
@@ -63,9 +57,6 @@ class ProjectTest extends TestCase
       $baseUrl = Config::get('app.url') . '/api/projects?id=1&token='.$token;
       $response = $this->json('get', $baseUrl, []);
       $response
-      ->assertStatus(200)
-      ->assertJson([
-          'data' => [],
-      ]);
+      ->assertStatus(200);
   }
 }

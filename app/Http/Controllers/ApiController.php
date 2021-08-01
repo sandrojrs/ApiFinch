@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @group Authenticating
+ *
+ * @authenticated
+ */
+
 class ApiController extends Controller
 {
     public function register(Request $request)
