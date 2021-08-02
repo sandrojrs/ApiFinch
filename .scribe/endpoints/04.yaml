@@ -37,31 +37,31 @@ endpoints:
         name: name
         description: ''
         required: true
-        example: eos
+        example: placeat
         type: string
       email:
         name: email
         description: 'Must be a valid email address.'
         required: true
-        example: legros.aimee@example.net
+        example: dameon.moen@example.net
         type: string
       cpf:
         name: cpf
         description: ''
         required: true
-        example: facilis
+        example: accusamus
         type: string
       password:
         name: password
         description: 'Must be at least 6 characters. Must not be greater than 50 characters.'
         required: true
-        example: arsicbifpiwbere
+        example: fbvlpwncroecxznlwkoysgptbuzketdievmbijxtdw
         type: string
       roles:
         name: roles
         description: ''
         required: true
-        example: magnam
+        example: tenetur
         type: string
     responses: []
     responseFields: []
@@ -82,7 +82,7 @@ endpoints:
         name: id
         description: 'The ID of the user.'
         required: true
-        example: 14
+        example: 6
         type: integer
     queryParameters: []
     bodyParameters: []
@@ -106,7 +106,7 @@ endpoints:
         name: id
         description: 'The ID of the user.'
         required: true
-        example: 8
+        example: 12
         type: integer
     queryParameters: []
     bodyParameters:
@@ -114,7 +114,7 @@ endpoints:
         name: name
         description: ''
         required: true
-        example: nihil
+        example: ut
         type: string
       email:
         name: email
@@ -126,19 +126,19 @@ endpoints:
         name: cpf
         description: ''
         required: true
-        example: est
+        example: modi
         type: string
       password:
         name: password
         description: 'Must be at least 6 characters. Must not be greater than 50 characters.'
         required: true
-        example: deytsqnzltmtvisyakrnkdzxkieyf
+        example: whdfujdiifllghhvoskuvmrwyopx
         type: string
       roles:
         name: roles
         description: ''
         required: true
-        example: at
+        example: id
         type: string
     responses: []
     responseFields: []
@@ -159,7 +159,7 @@ endpoints:
         name: id
         description: 'The ID of the user.'
         required: true
-        example: 13
+        example: 7
         type: integer
     queryParameters: []
     bodyParameters: []

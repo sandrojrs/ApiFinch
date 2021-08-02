@@ -12,11 +12,11 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @group Authenticating
  *
- * @authenticated
  */
 
 class ApiController extends Controller
 {
+    //@authenticated
     public function register(Request $request)
     {
     	//Validate data

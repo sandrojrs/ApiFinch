@@ -37,13 +37,13 @@ endpoints:
         name: name
         description: ''
         required: true
-        example: voluptatem
+        example: debitis
         type: string
       deadline:
         name: deadline
         description: 'Must be a valid date.'
         required: true
-        example: '2021-08-01T22:09:31'
+        example: '2021-08-02T12:46:27'
         type: string
       status:
         name: status
@@ -70,7 +70,7 @@ endpoints:
         name: id
         description: 'The ID of the project.'
         required: true
-        example: 17
+        example: 8
         type: integer
     queryParameters: []
     bodyParameters: []
@@ -94,7 +94,7 @@ endpoints:
         name: id
         description: 'The ID of the project.'
         required: true
-        example: 2
+        example: 6
         type: integer
     queryParameters: []
     bodyParameters:
@@ -102,19 +102,19 @@ endpoints:
         name: name
         description: ''
         required: true
-        example: suscipit
+        example: autem
         type: string
       deadline:
         name: deadline
         description: 'Must be a valid date.'
         required: true
-        example: '2021-08-01T22:09:31'
+        example: '2021-08-02T12:46:27'
         type: string
       status:
         name: status
         description: ''
         required: true
-        example: corrupti
+        example: quis
         type: string
     responses: []
     responseFields: []
@@ -135,7 +135,7 @@ endpoints:
         name: id
         description: 'The ID of the project.'
         required: true
-        example: 20
+        example: 5
         type: integer
     queryParameters: []
     bodyParameters: []

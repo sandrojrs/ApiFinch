@@ -22,13 +22,13 @@ endpoints:
         name: email
         description: 'Must be a valid email address.'
         required: true
-        example: kub.ross@example.net
+        example: yessenia33@example.com
         type: string
       password:
         name: password
         description: 'Must be at least 6 characters. Must not be greater than 50 characters.'
         required: true
-        example: yemsaqvelsuloxozutkznn
+        example: nonrnemvqhwxfmaxvrwcognxbqibydskdpqrqudihbbnsd
         type: string
     responses: []
     responseFields: []
@@ -51,31 +51,31 @@ endpoints:
         name: name
         description: ''
         required: true
-        example: cum
+        example: id
         type: string
       email:
         name: email
         description: 'Must be a valid email address.'
         required: true
-        example: maida62@example.com
+        example: bernhard.maci@example.org
         type: string
       cpf:
         name: cpf
         description: ''
         required: true
-        example: ab
+        example: quae
         type: string
       password:
         name: password
         description: 'Must be at least 6 characters. Must not be greater than 50 characters.'
         required: true
-        example: svohzyfmxvagnsylnmgzsudloivnjmbzp
+        example: oyhkitowrjqluofwcmjqcmml
         type: string
       roles:
         name: roles
         description: ''
         required: true
-        example: explicabo
+        example: expedita
         type: string
     responses: []
     responseFields: []

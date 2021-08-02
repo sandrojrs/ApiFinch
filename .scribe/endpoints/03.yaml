@@ -37,25 +37,25 @@ endpoints:
         name: title
         description: ''
         required: true
-        example: reprehenderit
+        example: sit
         type: string
       description:
         name: description
         description: ''
         required: true
-        example: doloremque
+        example: accusamus
         type: string
       deadline:
         name: deadline
         description: ''
         required: true
-        example: est
+        example: totam
         type: string
       project_id:
         name: project_id
         description: ''
         required: true
-        example: officiis
+        example: soluta
         type: string
     responses: []
     responseFields: []
@@ -76,7 +76,7 @@ endpoints:
         name: id
         description: 'The ID of the task.'
         required: true
-        example: 11
+        example: 19
         type: integer
     queryParameters: []
     bodyParameters: []
@@ -108,31 +108,31 @@ endpoints:
         name: title
         description: ''
         required: true
-        example: dolor
+        example: saepe
         type: string
       description:
         name: description
         description: ''
         required: true
-        example: totam
+        example: esse
         type: string
       deadline:
         name: deadline
         description: ''
         required: true
-        example: sint
+        example: neque
         type: string
       project_id:
         name: project_id
         description: ''
         required: true
-        example: harum
+        example: consequatur
         type: string
       status:
         name: status
         description: ''
         required: true
-        example: eos
+        example: illum
         type: string
     responses: []
     responseFields: []
@@ -153,7 +153,7 @@ endpoints:
         name: id
         description: 'The ID of the task.'
         required: true
-        example: 1
+        example: 19
         type: integer
     queryParameters: []
     bodyParameters: []

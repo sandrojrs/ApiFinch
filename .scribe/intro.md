@@ -10,5 +10,5 @@ Você pode alterar o idioma usado nas guias no canto superior direito (ou no men
 > Base URL
 
 ```yaml
-http://localhost:8000/
+http://localhost:8000
 ```

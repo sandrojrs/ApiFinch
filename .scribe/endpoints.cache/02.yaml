@@ -54,7 +54,7 @@ endpoints:
         name: id
         description: 'The ID of the role.'
         required: true
-        example: 20
+        example: 2
         type: integer
     queryParameters: []
     bodyParameters: []
@@ -78,7 +78,7 @@ endpoints:
         name: id
         description: 'The ID of the role.'
         required: true
-        example: 12
+        example: 20
         type: integer
     queryParameters: []
     bodyParameters: []
@@ -101,7 +101,7 @@ endpoints:
         name: id
         description: 'The ID of the role.'
         required: true
-        example: 12
+        example: 1
         type: integer
     queryParameters: []
     bodyParameters: []

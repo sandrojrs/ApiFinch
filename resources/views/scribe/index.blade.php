@@ -19,7 +19,7 @@
 
     <script src="//cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
     <script>
-        var baseUrl = "http://localhost:8000/";
+        var baseUrl = "http://localhost:8000";
     </script>
     <script src="{{ asset("vendor/scribe/js/tryitout-3.8.0.js") }}"></script>
 
@@ -49,7 +49,7 @@
                             <li><a href="http://github.com/knuckleswtf/scribe">Documentation powered by Scribe ✍</a></li>
                     </ul>
             <ul class="toc-footer" id="last-updated">
-            <li>Last updated: August 1 2021</li>
+            <li>Last updated: August 2 2021</li>
         </ul>
 </div>
 <div class="page-wrapper">
@@ -62,10 +62,10 @@ Você pode alterar o idioma usado nas guias no canto superior direito (ou no men
 <blockquote>
 <p>Base URL</p>
 </blockquote>
-<pre><code class="language-yaml">http://localhost:8000/</code></pre>
+<pre><code class="language-yaml">http://localhost:8000</code></pre>
 
         <h1>Authenticating requests</h1>
-<p>To authenticate requests, include an <strong><code>Authorization</code></strong> header with the value <strong><code>"Bearer {YOUR_AUTH_KEY}"</code></strong>.</p>
+<p>Authenticate requests to this API's endpoints by sending an <strong><code>Authorization</code></strong> header with the value <strong><code>"Bearer {YOUR_AUTH_KEY}"</code></strong>.</p>
 <p>All authenticated endpoints are marked with a <code>requires authentication</code> badge in the documentation below.</p>
 <p>You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.</p>
 
@@ -91,8 +91,8 @@ Você pode alterar o idioma usado nas guias no canto superior direito (ou no men
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"email\": \"kub.ross@example.net\",
-    \"password\": \"yemsaqvelsuloxozutkznn\"
+    \"email\": \"yessenia33@example.com\",
+    \"password\": \"nonrnemvqhwxfmaxvrwcognxbqibydskdpqrqudihbbnsd\"
 }"
 </code></pre>
 
@@ -107,8 +107,8 @@ const headers = {
 };
 
 let body = {
-    "email": "kub.ross@example.net",
-    "password": "yemsaqvelsuloxozutkznn"
+    "email": "yessenia33@example.com",
+    "password": "nonrnemvqhwxfmaxvrwcognxbqibydskdpqrqudihbbnsd"
 }
 
 fetch(url, {
@@ -205,11 +205,11 @@ fetch(url, {
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"name\": \"cum\",
-    \"email\": \"maida62@example.com\",
-    \"cpf\": \"ab\",
-    \"password\": \"svohzyfmxvagnsylnmgzsudloivnjmbzp\",
-    \"roles\": \"explicabo\"
+    \"name\": \"id\",
+    \"email\": \"bernhard.maci@example.org\",
+    \"cpf\": \"quae\",
+    \"password\": \"oyhkitowrjqluofwcmjqcmml\",
+    \"roles\": \"expedita\"
 }"
 </code></pre>
 
@@ -224,11 +224,11 @@ const headers = {
 };
 
 let body = {
-    "name": "cum",
-    "email": "maida62@example.com",
-    "cpf": "ab",
-    "password": "svohzyfmxvagnsylnmgzsudloivnjmbzp",
-    "roles": "explicabo"
+    "name": "id",
+    "email": "bernhard.maci@example.org",
+    "cpf": "quae",
+    "password": "oyhkitowrjqluofwcmjqcmml",
+    "roles": "expedita"
 }
 
 fetch(url, {
@@ -523,8 +523,8 @@ fetch(url, {
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"name\": \"voluptatem\",
-    \"deadline\": \"2021-08-01T22:09:31\"
+    \"name\": \"debitis\",
+    \"deadline\": \"2021-08-02T12:46:27\"
 }"
 </code></pre>
 
@@ -539,8 +539,8 @@ const headers = {
 };
 
 let body = {
-    "name": "voluptatem",
-    "deadline": "2021-08-01T22:09:31"
+    "name": "debitis",
+    "deadline": "2021-08-02T12:46:27"
 }
 
 fetch(url, {
@@ -640,13 +640,13 @@ fetch(url, {
 
 
 <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/projects/17" \
+    --get "http://localhost:8000/api/projects/8" \
     --header "Authorization: Bearer $token" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
 <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/projects/17"
+    "http://localhost:8000/api/projects/8"
 );
 
 const headers = {
@@ -734,19 +734,19 @@ fetch(url, {
 
 
 <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/projects/2" \
+    "http://localhost:8000/api/projects/6" \
     --header "Authorization: Bearer $token" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"name\": \"suscipit\",
-    \"deadline\": \"2021-08-01T22:09:31\",
-    \"status\": \"corrupti\"
+    \"name\": \"autem\",
+    \"deadline\": \"2021-08-02T12:46:27\",
+    \"status\": \"quis\"
 }"
 </code></pre>
 
 <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/projects/2"
+    "http://localhost:8000/api/projects/6"
 );
 
 const headers = {
@@ -756,9 +756,9 @@ const headers = {
 };
 
 let body = {
-    "name": "suscipit",
-    "deadline": "2021-08-01T22:09:31",
-    "status": "corrupti"
+    "name": "autem",
+    "deadline": "2021-08-02T12:46:27",
+    "status": "quis"
 }
 
 fetch(url, {
@@ -871,13 +871,13 @@ fetch(url, {
 
 
 <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/projects/20" \
+    "http://localhost:8000/api/projects/5" \
     --header "Authorization: Bearer $token" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
 <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/projects/20"
+    "http://localhost:8000/api/projects/5"
 );
 
 const headers = {
@@ -1139,13 +1139,13 @@ fetch(url, {
 
 
 <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/roles/20" \
+    --get "http://localhost:8000/api/roles/2" \
     --header "Authorization: Bearer $token" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
 <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/roles/20"
+    "http://localhost:8000/api/roles/2"
 );
 
 const headers = {
@@ -1233,13 +1233,13 @@ fetch(url, {
 
 
 <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/roles/12" \
+    "http://localhost:8000/api/roles/20" \
     --header "Authorization: Bearer $token" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
 <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/roles/12"
+    "http://localhost:8000/api/roles/20"
 );
 
 const headers = {
@@ -1331,13 +1331,13 @@ fetch(url, {
 
 
 <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/roles/12" \
+    "http://localhost:8000/api/roles/1" \
     --header "Authorization: Bearer $token" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
 <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/roles/12"
+    "http://localhost:8000/api/roles/1"
 );
 
 const headers = {
@@ -1519,10 +1519,10 @@ fetch(url, {
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"title\": \"reprehenderit\",
-    \"description\": \"doloremque\",
-    \"deadline\": \"est\",
-    \"project_id\": \"officiis\"
+    \"title\": \"sit\",
+    \"description\": \"accusamus\",
+    \"deadline\": \"totam\",
+    \"project_id\": \"soluta\"
 }"
 </code></pre>
 
@@ -1537,10 +1537,10 @@ const headers = {
 };
 
 let body = {
-    "title": "reprehenderit",
-    "description": "doloremque",
-    "deadline": "est",
-    "project_id": "officiis"
+    "title": "sit",
+    "description": "accusamus",
+    "deadline": "totam",
+    "project_id": "soluta"
 }
 
 fetch(url, {
@@ -1648,13 +1648,13 @@ fetch(url, {
 
 
 <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/tasks/11" \
+    --get "http://localhost:8000/api/tasks/19" \
     --header "Authorization: Bearer $token" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
 <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/tasks/11"
+    "http://localhost:8000/api/tasks/19"
 );
 
 const headers = {
@@ -1747,11 +1747,11 @@ fetch(url, {
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"title\": \"dolor\",
-    \"description\": \"totam\",
-    \"deadline\": \"sint\",
-    \"project_id\": \"harum\",
-    \"status\": \"eos\"
+    \"title\": \"saepe\",
+    \"description\": \"esse\",
+    \"deadline\": \"neque\",
+    \"project_id\": \"consequatur\",
+    \"status\": \"illum\"
 }"
 </code></pre>
 
@@ -1766,11 +1766,11 @@ const headers = {
 };
 
 let body = {
-    "title": "dolor",
-    "description": "totam",
-    "deadline": "sint",
-    "project_id": "harum",
-    "status": "eos"
+    "title": "saepe",
+    "description": "esse",
+    "deadline": "neque",
+    "project_id": "consequatur",
+    "status": "illum"
 }
 
 fetch(url, {
@@ -1899,13 +1899,13 @@ fetch(url, {
 
 
 <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/tasks/1" \
+    "http://localhost:8000/api/tasks/19" \
     --header "Authorization: Bearer $token" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
 <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/tasks/1"
+    "http://localhost:8000/api/tasks/19"
 );
 
 const headers = {
@@ -2087,11 +2087,11 @@ fetch(url, {
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"name\": \"eos\",
-    \"email\": \"legros.aimee@example.net\",
-    \"cpf\": \"facilis\",
-    \"password\": \"arsicbifpiwbere\",
-    \"roles\": \"magnam\"
+    \"name\": \"placeat\",
+    \"email\": \"dameon.moen@example.net\",
+    \"cpf\": \"accusamus\",
+    \"password\": \"fbvlpwncroecxznlwkoysgptbuzketdievmbijxtdw\",
+    \"roles\": \"tenetur\"
 }"
 </code></pre>
 
@@ -2106,11 +2106,11 @@ const headers = {
 };
 
 let body = {
-    "name": "eos",
-    "email": "legros.aimee@example.net",
-    "cpf": "facilis",
-    "password": "arsicbifpiwbere",
-    "roles": "magnam"
+    "name": "placeat",
+    "email": "dameon.moen@example.net",
+    "cpf": "accusamus",
+    "password": "fbvlpwncroecxznlwkoysgptbuzketdievmbijxtdw",
+    "roles": "tenetur"
 }
 
 fetch(url, {
@@ -2226,13 +2226,13 @@ fetch(url, {
 
 
 <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/users/14" \
+    --get "http://localhost:8000/api/users/6" \
     --header "Authorization: Bearer $token" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
 <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/users/14"
+    "http://localhost:8000/api/users/6"
 );
 
 const headers = {
@@ -2320,20 +2320,20 @@ fetch(url, {
 
 
 <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/users/8" \
+    "http://localhost:8000/api/users/12" \
     --header "Authorization: Bearer $token" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"name\": \"nihil\",
-    \"cpf\": \"est\",
-    \"password\": \"deytsqnzltmtvisyakrnkdzxkieyf\",
-    \"roles\": \"at\"
+    \"name\": \"ut\",
+    \"cpf\": \"modi\",
+    \"password\": \"whdfujdiifllghhvoskuvmrwyopx\",
+    \"roles\": \"id\"
 }"
 </code></pre>
 
 <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/users/8"
+    "http://localhost:8000/api/users/12"
 );
 
 const headers = {
@@ -2343,10 +2343,10 @@ const headers = {
 };
 
 let body = {
-    "name": "nihil",
-    "cpf": "est",
-    "password": "deytsqnzltmtvisyakrnkdzxkieyf",
-    "roles": "at"
+    "name": "ut",
+    "cpf": "modi",
+    "password": "whdfujdiifllghhvoskuvmrwyopx",
+    "roles": "id"
 }
 
 fetch(url, {
@@ -2475,13 +2475,13 @@ fetch(url, {
 
 
 <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/users/13" \
+    "http://localhost:8000/api/users/7" \
     --header "Authorization: Bearer $token" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
 <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/users/13"
+    "http://localhost:8000/api/users/7"
 );
 
 const headers = {
