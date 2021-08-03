@@ -62,7 +62,11 @@ class TaskController extends Controller
                 $task = $this->taskServices->Create($input);        
                 //User created, return success response
              DB::commit();
-             return new TaskResource($task);
+            //  if (isset($task['success'])){
+            //     return new TaskResource($task);
+            // }else{
+                return $task;
+            // }
                
           } catch (\Throwable $th) {
             DB::rollBack();

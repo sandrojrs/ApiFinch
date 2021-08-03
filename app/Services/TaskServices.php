@@ -39,7 +39,10 @@ class TaskServices
               ]);                     
         }
         $task = $this->taskRepository->create($data);
-        return $task;
+        return response()->json([
+            'success' => true,
+            'message' => 'Task create success',              
+        ]);  
     }
 
     public function update(int $id, array $data)
