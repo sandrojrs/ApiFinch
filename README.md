@@ -7,7 +7,6 @@
 <a href="#bibliotecas">Instalação</a> 
 
 
-
 </p>
 
 ## Desafio
@@ -41,16 +40,14 @@ projeto. Os executores poderão apenas buscar tarefas. A tarefa deve ter os segu
 Além disso, o executor deve conseguir indicar que a tarefa foi concluída.
 É importante validar e não permitir que o campo de prazo seja maior que o prazo final do projeto.
 No cadastro da tarefa o prazo final não pode ser menor que a data corrente
-<!--te-->
-=================
+
+----------
 ## Escolhas
 
   Está API seguiu os padrões de boas praticas na utilização de code clean e alguns principios SOLID.
   <p>Para exemplificar foram criados na estrutura as pastas de repository e services, visando facilitar o desenvolvimento do projeto conforme seu crescimento e para facilitar a manutenção, foram utilizados intefaces permitindo que os services possam herdar as funções basicas do eloquent, podendo ser auterado por outro ORM conforme haja necessidade sem comprometer toda a estrutura do projeto, também foram atribuidos apenas responsabilidades de requisições para os controles que fazem parte da regra de negócio, visando um codigo mais limpo e dentro das boas práticas.
 
-<!--te-->
-=================
-<!--ts-->
+----------
 ### bibliotecas
 
 - **[Vehikl](https://vehikl.com/)**
@@ -64,12 +61,12 @@ No cadastro da tarefa o prazo final não pode ser menor que a data corrente
 - **[DevSquad](https://devsquad.com)**
 - **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
 - **[OP.GG](https://op.gg)**
-
+----------
 # Começando
 
 ## Instalação
 
-Por favor, verifique o guia oficial de instalação do laravel para os requisitos do servidor antes de começar. [Documentação oficial] (https://laravel.com/docs/5.4/installation#installation)
+Por favor, verifique o guia oficial de instalação do laravel para os requisitos do servidor antes de começar. [Documentação oficial] (https://laravel.com/docs/8.x)
 
 
 Clone o repositório
@@ -98,7 +95,7 @@ Gere uma nova chave secreta de autenticação JWT
 
 Execute as migrações do banco de dados (** Defina a conexão do banco de dados em .env antes de migrar **)
 
-   php artisan migrate
+    php artisan migrate
 
 Inicie o servidor de desenvolvimento local
 
@@ -132,11 +129,12 @@ Execute o semeador de banco de dados e pronto
 
     php artisan migrate:refresh
     
+----------
 ## Docker
 
 Para instalar com [Docker] (https://www.docker.com), execute os seguintes comandos:
 
-`` `
+```
 git clone https://github.com/sandrojrs/ApiFinch.git
 cd lApiFinch
 cp .env.example.docker .env
@@ -146,7 +144,7 @@ docker-compose run --rm artisan key:generate
 docker-compose run --rm  artisan jwt:generate
 docker-compose run --rm artisan migrate
 docker-compose run --rm artisan db:seed
-`` `
+```
 
 A api pode ser acessada em [http://localhost/api] (http://localhost:8000/api).
 
@@ -161,7 +159,6 @@ A api pode ser acessada em [http://localhost/api] (http://localhost:8000/api).
 - [knuckleswtf/scribe](https://github.com/knuckleswtf/scribe)- Responsavel por criar a documentação da API
 
 - [spatie/laravel-permission](https://github.com/spatie/laravel-permission)- Responsavel por criar os grupos e permissões dos Usúarios
-
 
 ## Pastas
 
@@ -211,10 +208,7 @@ Solicitar cabeçalhos
 # Teste case
 
 ```
-Para testar se as rotas da api estão funcionando conforme o esperado rode o comando :
-
-php artisan test
-
+    php artisan test
 ````
 
 
@@ -233,8 +227,3 @@ Este aplicativo usa JSON Web Token (JWT) para lidar com a autenticação. O toke
 - https://self-issued.info/docs/draft-ietf-oauth-json-web-token.html
 
 ----------
-
- 
-
-
-
