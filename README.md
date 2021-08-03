@@ -140,22 +140,15 @@ Para instalar com [Docker] (https://www.docker.com), execute os seguintes comand
 git clone https://github.com/sandrojrs/ApiFinch.git
 cd lApiFinch
 cp .env.example.docker .env
-docker run -v $(pwd):/app composer install
-cd ./docker
-docker-compose up -d
-docker-compose exec php php artisan key:generate
-docker-compose exec php php artisan jwt:generate
-docker-compose exec php php artisan migrate
-docker-compose exec php php artisan db:seed
-docker-compose exec php php artisan serve --host=0.0.0.0
+docker-compose up -d --build site
+docker-compose run --rm composer install
+docker-compose run --rm artisan key:generate
+docker-compose run --rm  artisan jwt:generate
+docker-compose run --rm artisan migrate
+docker-compose run --rm artisan db:seed
 `` `
 
-A api pode ser acessada em [http: // localhost: 8000 / api] (http: // localhost: 8000 / api).
-
-## Especificação de API
-
-Este aplicativo segue as especificações da API definidas pela equipe [Thinkster] (https://github.com/gothinkster). Isso ajuda a misturar e combinar qualquer back-end com qualquer outro front-end sem conflitos.
-
+A api pode ser acessada em [http://localhost/api] (http://localhost:8000/api).
 
 # Visão geral do código
 
