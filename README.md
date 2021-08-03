@@ -71,7 +71,6 @@ No cadastro da tarefa o prazo final não pode ser menor que a data corrente
 
 Por favor, verifique o guia oficial de instalação do laravel para os requisitos do servidor antes de começar. [Documentação oficial] (https://laravel.com/docs/5.4/installation#installation)
 
-A instalação alternativa é possível sem dependências locais contando com [Docker] (# docker).
 
 Clone o repositório
 
@@ -91,7 +90,7 @@ Copie o arquivo env de exemplo e faça as alterações de configuração necess�
 
 Gerar uma nova chave de aplicativo
 
-  php artisan key:generate
+    php artisan key:generate
 
 Gere uma nova chave secreta de autenticação JWT
 
@@ -105,7 +104,7 @@ Inicie o servidor de desenvolvimento local
 
     php artisan serve
 
-Agora você pode acessar o servidor em http://localhost: 8000
+Agora você pode acessar o servidor em http://localhost:8000
 
 ** TL; lista de comandos DR **
 
